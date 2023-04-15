@@ -1,106 +1,48 @@
 #include "rj-headers.h"
 
 /**
- * main - entry point for simple shell
- * @argc: argument count
- * @argv: argument vector
- * @env: environment variables
- * Authors: Adeyemo Raphael and Joseph Obi
- * Return: 0 on success, 1 on error
+ *main - Simple shell project by Raphael and Joseph
+ *
+ *
+ *Return:  return 0 (success)
  */
-int main(int argc, char **argv, char **env)
-{
-	char *buffer = NULL;
-	size_t bufsize = 0;
-	ssize_t bytes_read;
-	char *path;
-	int status;
-	pid_t pid;
 
+int main(void)
+{
+
+	char *pathbuffer = NULL;
+	char *copy = NULL;
+	char *buffer = NULL;
+	char *PATH = NULL;
+	char **argv;
+	int exitstatus = 0;
+
+	/* init_shell(); */
+	signal(SIGINT, SIG_IGN);
+	PATH = _getenv("PATH");
+	if (PATH == NULL)
+		return (EXIT_FAILURE);
 	while (1)
 	{
-		argc = 0;
-
-		printf("$ ");
-
-		bytes_read = getline(&buffer, &bufsize, stdin);
-
-		if (bytes_read == -1)
+		argv = NULL;
+		prompt();
+		buffer = _read();
+		if (*buffer != '\0')
 		{
-			if (feof(stdin))
+			argv = _strtoken(buffer);
+			if (argv == NULL)
 			{
-				printf("\n");
-				exit(EXIT_SUCCESS);
+				free(buffer);
+				continue;
 			}
-			else
-			{
-				perror("getline");
-				exit(EXIT_FAILURE);
-			}
-		}
-
-		buffer[bytes_read - 1] = '\0';
-
-		if (strcmp(buffer, "exit") == 0)
-		{
-			exit(EXIT_SUCCESS);
-		}
-
-		pid = fork();
-
-		if (pid == -1)
-		{
-			perror("fork");
-			exit(EXIT_FAILURE);
-		}
-		else if (pid == 0)
-		{
-			char *args[64];
-			char *token;
-			int i = 0;
-
-			token = strtok(buffer, " ");
-
-			while (token != NULL)
-			{
-				args[i++] = token;
-				token = strtok(NULL, " ");
-			}
-
-			args[i] = NULL;
-
-			if (execve(buffer, args, env) == -1)
-			{
-				path = getenv("PATH");
-
-				if (path == NULL)
-				{
-					perror("getenv");
-					exit(EXIT_FAILURE);
-				}
-
-				token = strtok(path, ":");
-
-				while (token != NULL)
-				{
-					char path_buffer[128];
-					sprintf(path_buffer, "%s/%s", token, buffer);
-
-					if (execve(path_buffer, args, env) != -1)
-						break;
-
-					token = strtok(NULL, ":");
-				}
-
-				perror("execve");
-				exit(EXIT_FAILURE);
-			}
+			pathbuffer = _pathbuffer(argv, PATH, copy);
+			if (checkbuiltins(argv, buffer, exitstatus) == 1)
+				continue;
+			exitstatus = _forkprocess(argv, buffer, pathbuffer);
 		}
 		else
-		{
-			wait(&status);
-		}
+			free(buffer);
 	}
 
-	return (0);
+	return (EXIT_SUCCESS);
 }

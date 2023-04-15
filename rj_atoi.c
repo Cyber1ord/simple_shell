@@ -1,4 +1,4 @@
-#include "shell.h"
+#include "rj-shell.h"
 
 /**
  * interactive - returns true if shell is interactive mode

@@ -1,10 +1,12 @@
 #include "rj-headers.h"
 
+**/
 * _myexit - Exit the shell with a given status code
 * @info: Pointer to a struct containing shell information
 *
 * Return: Always returns -2 to indicate that the shell should exit
-	*/
+*/
+
 int _myexit(info_t *info)
 {
 	int exitcode = 0;
@@ -36,8 +38,7 @@ int _myexit(info_t *info)
 
 /**
  * _myhelp - function that retrieves help messages according to builtin command
-<<<<<<< HEAD
- * @datash: data structure (args and input)
+ * @info_t: data structure (args and input)
 =======
  * @info: data structure (args and input)
 >>>>>>> 0cc015fca5d44a194aff3a55b3745a218c55be16
@@ -109,8 +110,6 @@ int _myhelp(info_t *info)
 	return (1);
 }
 
-<<<<<<< HEAD
-=======
 /**
  * _mycd - changes the current working directory of the shell process
  * @info: pointer to a info_t containing arguments for cd command
@@ -144,5 +143,3 @@ int _mycd(info_t *info)
 
 	return (1);
 }
-
->>>>>>> 0cc015fca5d44a194aff3a55b3745a218c55be16

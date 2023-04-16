@@ -36,7 +36,11 @@ int _myexit(info_t *info)
 
 /**
  * _myhelp - function that retrieves help messages according to builtin command
+<<<<<<< HEAD
  * @datash: data structure (args and input)
+=======
+ * @info: data structure (args and input)
+>>>>>>> 0cc015fca5d44a194aff3a55b3745a218c55be16
  * Return: Always 1
  */
 int _myhelp(info_t *info)
@@ -105,3 +109,40 @@ int _myhelp(info_t *info)
 	return (1);
 }
 
+<<<<<<< HEAD
+=======
+/**
+ * _mycd - changes the current working directory of the shell process
+ * @info: pointer to a info_t containing arguments for cd command
+ *
+ * Return: Always returns 1
+ */
+int _mycd(info_t *info)
+{
+	char *dir = info->args[1];
+
+	if (dir == NULL)
+	{
+		cd_to_home(info);
+	}
+	else if (strcmp("$HOME", dir) == 0 || strcmp("~", dir) == 0 || strcmp("--", dir) == 0)
+	{
+		cd_to_home(info);
+	}
+	else if (strcmp("-", dir) == 0)
+	{
+		cd_previous(info);
+	}
+	else if (strcmp(".", dir) == 0 || strcmp("..", dir) == 0)
+	{
+		cd_dot(info);
+	}
+	else
+	{
+		cd_to(info);
+	}
+
+	return (1);
+}
+
+>>>>>>> 0cc015fca5d44a194aff3a55b3745a218c55be16

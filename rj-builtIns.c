@@ -41,7 +41,6 @@ int _myexit(info_t *info)
  * @info_t: data structure (args and input)
 =======
  * @info: data structure (args and input)
->>>>>>> 0cc015fca5d44a194aff3a55b3745a218c55be16
  * Return: Always 1
  */
 int _myhelp(info_t *info)

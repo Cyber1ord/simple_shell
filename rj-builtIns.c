@@ -1,11 +1,11 @@
 #include "rj-headers.h"
 
-**/
-* _myexit - Exit the shell with a given status code
-* @info: Pointer to a struct containing shell information
-*
-* Return: Always returns -2 to indicate that the shell should exit
-*/
+/**
+ * _myexit - Exit the shell with a given status code
+ * @info: Pointer to a struct containing shell information
+ *
+ * Return: Always returns -2 to indicate that the shell should exit
+ */
 
 int _myexit(info_t *info)
 {
@@ -38,106 +38,60 @@ int _myexit(info_t *info)
 
 /**
  * _myhelp - function that retrieves help messages according to builtin command
- * @info_t: data structure (args and input)
-=======
  * @info: data structure (args and input)
  * Return: Always 1
  */
+
 int _myhelp(info_t *info)
 {
-	/* Define help messages */
-	char *help_general = "Type help [builtin] for more information about a command.\n\n"
-		"Builtins:\n"
-		"\tcd\n"
-		"\tsetenv\n"
-		"\tunsetenv\n"
-		"\tenv\n"
-		"\texit\n"
-		"\thelp\n";
-	char *help_setenv = "Usage: setenv [VARIABLE] [VALUE]\n\n"
-		"Set an environment variable.\n";
-	char *help_env = "Usage: env\n\n"
-		"Print the environment variables.\n";
-	char *help_unsetenv = "Usage: unsetenv [VARIABLE]\n\n"
-		"Unset an environment variable.\n";
-	char *help_exit = "Usage: exit [STATUS]\n\n"
-		"Exit the shell with a given status.\n";
-	char *help_cd = "Usage: cd [DIRECTORY]\n\n"
-		"Change the current working directory.\n";
-	char *help_alias = "Usage: alias [ALIAS] [VALUE]\n\n"
-		"Create an alias for a command.\n";
+	int i, j;
+	char *name;
 
-	/* Check for correct number of arguments */
-	if (info->args[1] == NULL || info->args[2] != NULL)
+	switch (find_builtin(info->argv[1]))
 	{
-		write(STDERR_FILENO, info->args[0], _strlen(info->args[0]));
-		info->status = 2;
-		return (1);
-	}
-
-	/* Print help message based on argument */
-	switch (get_builtin(info->args[1]))
-	{
-		case BUILTIN_GENERAL:
-			write(STDOUT_FILENO, help_general, _strlen(help_general));
+		case BUILTIN_EXIT:
+			name = "exit";
 			break;
 		case BUILTIN_CD:
-			write(STDOUT_FILENO, help_cd, _strlen(help_cd));
+			name = "cd";
 			break;
-		case BUILTIN_SETENV:
-			write(STDOUT_FILENO, help_setenv, _strlen(help_setenv));
+		case BUILTIN_HELP:
+			name = "help";
 			break;
-		case BUILTIN_UNSETENV:
-			write(STDOUT_FILENO, help_unsetenv, _strlen(help_unsetenv));
-			break;
-		case BUILTIN_ENV:
-			write(STDOUT_FILENO, help_env, _strlen(help_env));
-			break;
-		case BUILTIN_EXIT:
-			write(STDOUT_FILENO, help_exit, _strlen(help_exit));
-			break;
-		case BUILTIN_ALIAS:
-			write(STDOUT_FILENO, help_alias, _strlen(help_alias));
+		case BUILTIN_HISTORY:
+			name = "history";
 			break;
 		default:
-			write(STDERR_FILENO, info->args[0], _strlen(info->args[0]));
-			info->status = 2;
-			return (1);
+			name = NULL;
+			break;
 	}
 
-	info->status = 0;
-	return (1);
-}
-
-/**
- * _mycd - changes the current working directory of the shell process
- * @info: pointer to a info_t containing arguments for cd command
- *
- * Return: Always returns 1
- */
-int _mycd(info_t *info)
-{
-	char *dir = info->args[1];
-
-	if (dir == NULL)
+	if (name == NULL)
 	{
-		cd_to_home(info);
-	}
-	else if (strcmp("$HOME", dir) == 0 || strcmp("~", dir) == 0 || strcmp("--", dir) == 0)
-	{
-		cd_to_home(info);
-	}
-	else if (strcmp("-", dir) == 0)
-	{
-		cd_previous(info);
-	}
-	else if (strcmp(".", dir) == 0 || strcmp("..", dir) == 0)
-	{
-		cd_dot(info);
+		printf("No help topics match `%s'.  Try `help help'.\n", info->argv[1]);
 	}
 	else
 	{
-		cd_to(info);
+		if (strcmp(name, "exit") == 0)
+		{
+			printf("exit: exit [n]\n\tExit the shell.\n\n");
+		}
+		else if (strcmp(name, "cd") == 0)
+		{
+			printf("cd: cd [dir]\n\tChange the shell working directory.\n\n");
+		}
+		else if (strcmp(name, "help") == 0)
+		{
+			printf("help: help [builtin]\n\tDisplay information about built-in commands.\n\n");
+		}
+		else if (strcmp(name, "history") == 0)
+		{
+			printf("history: history\n\tDisplay the command history.\n\n");
+		}
+		else
+		{
+			printf("Unknown help topic. Try `help help'.\n");
+		}
 	}
 
 	return (1);

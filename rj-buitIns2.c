@@ -1,3 +1,5 @@
+#include "rj-headers.h"
+
 /**
  * _myhistory - displays the history list, one command by line, preceded
  *              with line numbers, starting at 0.
@@ -11,7 +13,7 @@ int _myhistory(info_t *info)
 
 	while (node != NULL)
 	{
-		printf("%d %s\n", node->index, node->str);
+		printf("%d %s\n", node->data.index, node->str);
 		node = node->next;
 	}
 	return (0);
@@ -78,7 +80,7 @@ int _myalias(info_t *info)
 		node = info->alias;
 		while (node != NULL)
 		{
-			print_alias(node);
+			print_list(node);
 			node = node->next;
 		}
 		return (0);
@@ -89,7 +91,7 @@ int _myalias(info_t *info)
 		if (p != NULL)
 			set_alias(info, info->argv[i]);
 		else
-			print_alias(node_starts_with(info->alias, info->argv[i], '='));
+			print_list(node_starts_with(info->alias, info->argv[i], '='));
 	}
 	return (0);
 }

@@ -1,5 +1,7 @@
 #include "rj-headers.h"
 
+#define BUFFER_SIZE 1024
+
 /**
  * cd - changes to the directory given by the user or the parent directory
  *
@@ -7,46 +9,32 @@
  *
  * Return: no return
  */
-void cd(info_t *info)
-{
-	char pwd[PATH_MAX], *dir, *cp_pwd;
-	int res;
 
-	getcwd(pwd, sizeof(pwd));
-	cp_pwd = _strdup(pwd);
-	set_env("OLDPWD", cp_pwd, info);
+void get_error(char *msg, int exit_status) {
+	fprintf(stderr, "%s\n", msg);
+	exit(exit_status);
+}
 
-	dir = info->args[1];
-	if (!dir || dir[0] == '\0')
-		dir = _getenv("HOME", info->_environ);
-
-	if (!dir || dir[0] == '\0')
-	{
-		info->status = 1;
-		return;
-	}
-
-	if (dir[0] == '-')
-	{
-		char *oldpwd = _getenv("OLDPWD", info->_environ);
-		if (!oldpwd)
-			info->status = 1;
-			return;
+void cd(int argc, char **argv) {
+	char *dir;
+	if (argc < 2) {
+		dir = getenv("HOME");
+		if (dir == NULL) {
+			get_error("cd: HOME environment variable not set", 1);
 		}
-		dir = oldpwd;
+	} else {
+		dir = malloc(BUFFER_SIZE * sizeof(char));
+		strcpy(dir, argv[1]);
 	}
-
-	res = chdir(dir);
-	if (res == -1)
-	{
-		get_error(info, 2);
-		info->status = 1;
-		return;
+	int ret = chdir(dir);
+	if (ret != 0) {
+		get_error("cd: failed to change directory", 1);
 	}
+	free(dir);
+}
 
-	getcwd(pwd, sizeof(pwd));
-	set_env("PWD", pwd, info);
-	info->status = 0;
-	free(cp_pwd);
+int main(int argc, char **argv) {
+	cd(argc, argv);
+	return 0;
 }
 

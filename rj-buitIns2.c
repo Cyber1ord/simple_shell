@@ -13,7 +13,7 @@ int _myhistory(info_t *info)
 
 	while (node != NULL)
 	{
-		printf("%d %s\n", node->data.index, node->str);
+		printf("%d %s\n", node->info.index, node->str);
 		node = node->next;
 	}
 	return (0);

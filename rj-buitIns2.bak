@@ -7,6 +7,17 @@
  *        constant function prototype.
  *  Return: Always 0
  */
+int _myhistory2(info_t *info)
+{
+	list_t *node = info->history;
+
+	while (node != NULL)
+	{
+		printf("%d %s\n", node->info.index, node->str);
+		node = node->next;
+	}
+	return (0);
+}
 int _myhistory(info_t *info)
 {
 	print_list(info->history);
@@ -42,18 +53,14 @@ int set_alias(info_t *info, char *str)
  */
 int unset_alias(info_t *info, char *str)
 {
-	char *p, t;
-	int ret;
-	       
-	p = strchr(str, '=');
+	char *p = strchr(str, '=');
 
 	if (p == NULL)
 		return (1);
-	t = *p;
-	*p = 0;
-	ret = delete_node_at_index(&(info->alias),
+	*p = '\0';
+	int ret = delete_node_at_index(&(info->alias),
 			get_node_index(info->alias, node_starts_with(info->alias, str, -1)));
-	*p = t;
+	*p = '=';
 	return (ret);
 }
 

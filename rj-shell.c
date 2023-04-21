@@ -19,13 +19,13 @@ int main(void)
 
 	/* init_shell(); */
 	signal(SIGINT, SIG_IGN);
-	PATH = _getenv("PATH");
+	PATH = _getenv(NULL, "PATH"); /* changed first argument to NULL */
 	if (PATH == NULL)
 		return (EXIT_FAILURE);
 	while (1)
 	{
 		argv = NULL;
-		prompt();
+		prompt(); /* added prototype for prompt() to rj-headers.h */
 		buffer = _read();
 		if (*buffer != '\0')
 		{
@@ -46,3 +46,4 @@ int main(void)
 
 	return (EXIT_SUCCESS);
 }
+

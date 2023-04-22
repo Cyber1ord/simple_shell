@@ -1,7 +1,7 @@
-#include "rj-headers.h"
+#include "shell.h"
 
 /**
- *main - Simple shell project by Raphael and Joseph
+ *main - Basic shell project
  *
  *
  *Return:  return 0 (success)
@@ -19,13 +19,13 @@ int main(void)
 
 	/* init_shell(); */
 	signal(SIGINT, SIG_IGN);
-	PATH = _getenv(NULL, "PATH"); /* changed first argument to NULL */
+	PATH = _getenv("PATH");
 	if (PATH == NULL)
 		return (EXIT_FAILURE);
 	while (1)
 	{
 		argv = NULL;
-		prompt(); /* added prototype for prompt() to rj-headers.h */
+		prompt();
 		buffer = _read();
 		if (*buffer != '\0')
 		{

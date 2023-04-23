@@ -44,9 +44,10 @@ char *_getline(void)
 	}
 
 	/* Find the end of the current line (if there is one). */
-	char *newline_pos = NULL;
+	char *newline_pos;
 	int i;
 
+	newline_pos = NULL;
 	for (i = 0; i < bytes_left; i++)
 	{
 		if (pos[i] == '\n')
@@ -128,4 +129,4 @@ char *_getline(void)
 
 		return (1);
 	}
-
+}

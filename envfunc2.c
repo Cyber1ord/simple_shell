@@ -15,11 +15,12 @@ char *_getenv(const char *name)
 	if (name == NULL)
 		return (NULL);
 
-	len = _strlen(name);
+	len = _strlen((char *) name);
 
 	for (i = 0; environ[i] != NULL; i++)
 	{
-		if (_strncmp(name, environ[i], len) == 0 && environ[i][len] == '=')
+		if (_strcomp(name, environ[i], len) == 0 && environ[i][len] == '=')
+
 		{
 			value = environ[i] + len + 1;
 			return (value);
@@ -44,11 +45,11 @@ int _setenv(const char *name, const char *value)
 	if (name == NULL || value == NULL)
 		return (-1);
 
-	len = _strlen(name);
+	len = _strlen((char *) name);
 
 	for (i = 0; environ[i] != NULL; i++)
 	{
-		if (_strncmp(name, environ[i], len) == 0 && environ[i][len] == '=')
+		if (_strcomp(name, environ[i], len) == 0 && environ[i][len] == '=')
 		{
 			env_str = _strconcat(name, "=", value);
 			if (env_str == NULL)
@@ -73,3 +74,31 @@ int _setenv(const char *name, const char *value)
 	return (0);
 }
 
+
+/**
+ * _puts - Prints a string to stdout
+ *
+ * @str: The string to be printed
+ */
+void _puts(char *str)
+{
+	int i = 0;
+
+	while (str[i])
+	{
+		_putchar(str[i]);
+		i++;
+	}
+}
+
+/**
+ * _putchar - Writes a character to stdout
+ *
+ * @c: The character to be written
+ *
+ * Return: On success 1, on error -1
+ */
+int _putchar(char c)
+{
+	return (write(STDOUT_FILENO, &c, 1));
+}

@@ -2,11 +2,12 @@
 
 /**
  * _strtoken - Splits a string into an array of tokens
- * @str: The string to split
+ * @buffer: The string to split
+ * @delim: The delimiter to split the string by
  *
  * Return: An array of strings (tokens) or NULL on failure
  */
-char **_strtoken(char *str)
+char **_strtoken(char *buffer, char *delim)
 {
 	int bufsize = TOK_BUFSIZE;
 	char **tokens = malloc(bufsize * sizeof(char *));
@@ -19,7 +20,7 @@ char **_strtoken(char *str)
 		return (NULL);
 	}
 
-	token = strtok(str, TOK_DELIM);
+	token = strtok(buffer, TOK_DELIM);
 	while (token != NULL)
 	{
 		tokens[i] = token;
@@ -36,12 +37,13 @@ char **_strtoken(char *str)
 			}
 		}
 
-		token = strtok(NULL, TOK_DELIM);
+		token = _strtoken(NULL, TOK_DELIM);
 	}
 	tokens[i] = NULL;
 
 	return (tokens);
 }
+
 
 /**
  * _forkprocess - creates a child process to execute a command
@@ -100,7 +102,7 @@ char *check_path(char *cmd, char *path)
 	struct stat st;
 	int len_cmd, len_dir;
 
-	while ((dir = _strtok(path, ":")))
+	while ((dir = _strtoken(path, ":")))
 	{
 		len_cmd = _strlen(cmd);
 		len_dir = _strlen(dir);
@@ -146,21 +148,21 @@ void exit_shell(char *status)
  */
 int checkbuiltins(char **argv, char *buffer, int exitstatus)
 {
-	if (_strcmp(argv[0], "exit") == 0)
+	if (_strcomp(argv[0], "exit") == 0)
 	{
 		free(buffer);
 		free_argv(argv);
 		exit_shell(exitstatus);
 	}
-	else if (_strcmp(argv[0], "env") == 0)
+	else if (_strcomp(argv[0], "env") == 0)
 	{
 		env_builtin();
 	}
-	else if (_strcmp(argv[0], "setenv") == 0)
+	else if (_strcomp(argv[0], "setenv") == 0)
 	{
 		setenv_builtin(argv);
 	}
-	else if (_strcmp(argv[0], "unsetenv") == 0)
+	else if (_strcomp(argv[0], "unsetenv") == 0)
 	{
 		unsetenv_builtin(argv);
 	}

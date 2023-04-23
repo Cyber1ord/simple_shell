@@ -24,8 +24,10 @@ void add_to_history(char *command)
 	/* If the history is full, remove the oldest command */
 	if (history_count == MAX_HISTORY)
 	{
+		int i;
+
 		free(history[0]);
-		for (int i = 1; i < history_count; i++)
+		for (i = 1; i < history_count; i++)
 		{
 			history[i - 1] = history[i];
 		}
@@ -43,7 +45,9 @@ void add_to_history(char *command)
  **/
 void print_history()
 {
-	for (int i = 0; i < history_count; i++)
+	int i;
+
+	for (i = 0; i < history_count; i++)
 	{
 		printf("%d: %s\n", i + 1, history[i]);
 	}
@@ -60,7 +64,7 @@ char *get_command_from_history(int n)
 {
 	if (n < 1 || n > history_count)
 	{
-		return NULL;
+		return (NULL);
 	}
-	return history[n - 1];
+	return (history[n - 1]);
 }

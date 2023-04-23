@@ -19,12 +19,12 @@ int main(int argc, char **argv)
 	if (argc == 2)
 		fp = fopen(argv[1], "r");
 
-	while (fp ? getline(&buffer, &copy, fp) != -1 : 1)
+	while (fp ? _getline(&buffer, &copy, fp) != -1 : 1)
 	{
 		if (fp)
-			buffer[strlen(buffer) - 1] = '\0';
+			buffer[_strlen(buffer) - 1] = '\0';
 
-		if (strcmp(buffer, "history\n") == 0)
+		if (_strcomp(buffer, "history\n") == 0)
 		{
 			print_history();
 			continue;
@@ -35,14 +35,14 @@ int main(int argc, char **argv)
 			int n;
 			char *cmd;
 
-			n = atoi(&buffer[1]);
+			n = _itoa(&buffer[1]);
 			cmd = get_command_from_history(n);
 			if (cmd == NULL)
 			{
 				printf("No such command in history\n");
 				continue;
 			}
-			strcpy(buffer, cmd);
+			_strcpy(buffer, cmd);
 			printf("%s\n", buffer);
 		}
 
@@ -58,21 +58,21 @@ int main(int argc, char **argv)
 			continue;
 		}
 
-		if (strcmp(argv_list[0], "cd") == 0)
+		if (_strcomp(argv_list[0], "cd") == 0)
 		{
 			if (checkbuiltins(argv_list[1]) == -1)
 				fprintf(stderr, "cd: can't cd to %s\n", argv_list[1]);
 			else
-				setenv("PWD", getcwd(NULL, 0), 1);
+				_setenv("PWD", getcwd(NULL, 0), 1);
 
 			free(argv_list);
 			continue;
 		}
 
-		if (strcmp(argv_list[0], "exit") == 0)
+		if (_strcomp(argv_list[0], "exit") == 0)
 		{
 			if (argv_list[1])
-				exitstatus = _atoi(argv_list[1]);
+				exitstatus = _itoa(argv_list[1]);
 			else
 				exitstatus = 0;
 

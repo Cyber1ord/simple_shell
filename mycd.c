@@ -47,10 +47,7 @@ int cd_builtin(char **args)
 
 	if (_setenv("OLDPWD", _getenv("PWD")) == -1)
 		perror("cd");
-
 	if (_setenv("PWD", cwd) == -1)
 		perror("cd");
-
 	return (1);
 }
-

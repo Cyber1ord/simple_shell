@@ -16,7 +16,7 @@ char **_strtoken(char *str)
 	if (!tokens)
 	{
 		perror("malloc error");
-		return NULL;
+		return (NULL);
 	}
 
 	token = strtok(str, TOK_DELIM);
@@ -32,7 +32,7 @@ char **_strtoken(char *str)
 			if (!tokens)
 			{
 				perror("realloc error");
-				return NULL;
+				return (NULL);
 			}
 		}
 
@@ -40,7 +40,7 @@ char **_strtoken(char *str)
 	}
 	tokens[i] = NULL;
 
-	return tokens;
+	return (tokens);
 }
 
 /**

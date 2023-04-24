@@ -1,100 +1,92 @@
 #include "shell.h"
 
 /**
- * replace_vars - Replaces variable placeholders in a string
- * @str: The string to modify
- * @status: The exit status of the last executed command
- * @pid: The process ID of the shell
+ * _strlen - returns the length of a string
+ * @s: the string whose length to check
  *
- * Return: The modified string
+ * Return: integer length of string
  */
-char *replace_vars(char *str, int status, pid_t pid)
+int _strlen(char *s)
 {
-	char *ret = malloc(sizeof(char) * (_strlen(str) + 1));
-	char *var_start, *var_end, *var_name, *var_value;
-	int i = 0, j = 0, k = 0, len;
+	int i = 0;
 
-	if (!ret)
-		return (NULL);
+	if (!s)
+		return (0);
 
-	while (str[i])
-	{
-		if (str[i] == '$' && str[i + 1] != '\0')
-		{
-			var_start = &str[i];
-			var_end = var_start + 1;
-			while (isalnum(*(++var_end)))
-				;
-			len = var_end - var_start - 1;
-			var_name = _strdup(var_start + 1, len);
-			if (!var_name)
-				return (NULL);
-			if (_strcomp(var_name, "?") == 0)
-				var_value = _itoa(status);
-			else if (_strcomp(var_name, "$") == 0)
-				var_value = _itoa(pid);
-			else
-				var_value = _getenv(var_name);
-			if (!var_value)
-				var_value = "";
-			len = _strlen(var_value);
-			while (j < (var_start - str))
-				ret[k++] = str[j++];
-			j = var_end - str;
-			while (*var_value)
-				ret[k++] = *(var_value++);
-			free(var_name);
-			free(var_value);
-		}
-		else
-		{
-			ret[k++] = str[j++];
-		}
+	while (*s++)
 		i++;
+	return (i);
+}
+
+/**
+ * _strcmp - performs lexicogarphic comparison of two strangs.
+ * @s1: the first strang
+ * @s2: the second strang
+ *
+ * Return: negative if s1 < s2, positive if s1 > s2, zero if s1 == s2
+ */
+int _strcmp(char *s1, char *s2)
+{
+	while (*s1 && *s2)
+	{
+		if (*s1 != *s2)
+			return (*s1 - *s2);
+		s1++;
+		s2++;
 	}
-	ret[k] = '\0';
+	if (*s1 == *s2)
+		return (0);
+	else
+		return (*s1 < *s2 ? -1 : 1);
+}
+
+/**
+ * starts_with - checks if needle starts with haystack
+ * @haystack: string to search
+ * @needle: the substring to find
+ *
+ * Return: address of next char of haystack or NULL
+ */
+char *starts_with(const char *haystack, const char *needle)
+{
+	while (*needle)
+		if (*needle++ != *haystack++)
+			return (NULL);
+	return ((char *)haystack);
+}
+
+/**
+ * _strcat - concatenates two strings
+ * @dest: the destination buffer
+ * @src: the source buffer
+ *
+ * Return: pointer to destination buffer
+ */
+char *_strcat(char *dest, char *src)
+{
+	char *ret = dest;
+
+	while (*dest)
+		dest++;
+	while (*src)
+		*dest++ = *src++;
+	*dest = *src;
 	return (ret);
 }
 
 /**
- * _itoa - Converts an integer to a string
- * @num: The integer to convert
- *
- * Return: The resulting string
+ **_strchr - locates a character in a string
+ *@s: the string to be parsed
+ *@c: the character to look for
+ *Return: (s) a pointer to the memory area s
  */
-char *_itoa(int num)
+char *_strchr(char *s, char c)
 {
-	int sign = num < 0 ? -1 : 1;
-	int i = 0, j;
-	char *str = malloc(sizeof(char) * 12);
+	do {
+		if (*s == c)
+			return (s);
+	} while (*s++ != '\0');
 
-	if (num == 0)
-	{
-		str[i++] = '0';
-		str[i] = '\0';
-		return (str);
-	}
 
-	num *= sign;
-
-	while (num)
-	{
-		str[i++] = (num % 10) + '0';
-		num /= 10;
-	}
-
-	if (sign == -1)
-		str[i++] = '-';
-
-	str[i] = '\0';
-
-	for (j = 0; j < i / 2; j++)
-	{
-		char temp = str[j];
-		str[j] = str[i - j - 1];
-		str[i - j - 1] = temp;
-	}
-
-	return (str);
+	return (NULL);
 }
-

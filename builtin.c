@@ -9,7 +9,7 @@ int _rexit(data_t *mydata)
 {
 	int exitcheck;
 
-	if (mydata->argv[1])  /* If there is an exit arguement */
+	if (mydata->argv[1])
 	{
 		exitcheck = _erratoi(mydata->argv[1]);
 		if (exitcheck == -1)
@@ -28,80 +28,11 @@ int _rexit(data_t *mydata)
 }
 
 /**
- * _cd - changes the current directory of the process
- * @mydata: Structure containing potential arguments. Used to maintain
- *          constant function prototype.
- *  Return: Always 0
- */
-int _cd(data_t *mydata)
-{
-	char *s, *dir, buffer[1024];
-	int chdir_ret;
-
-	s = getcwd(buffer, 1024);
-	if (!s)
-	{
-		_puts("TODO: >>getcwd failure emsg here<<\n");
-	}
-	if (!mydata->argv[1])
-	{
-		dir = _getenv(mydata, "HOME=");
-		if (!dir)
-		{
-			dir = _getenv(mydata, "PWD=");
-		}
-
-		while (dir && *dir && *dir == ' ')
-		{
-			dir++;
-		}
-
-		chdir_ret = chdir(dir);
-	}
-	else if (_strcmp(mydata->argv[1], "-") == 0)
-	{
-		dir = _getenv(mydata, "OLDPWD=");
-		if (!dir)
-		{
-			_puts(s);
-			_putchar('\n');
-			return (1);
-		}
-		while (dir && *dir && (*dir == ' '))
-			dir++;
-		_puts(dir);
-		_putchar('\n');
-		chdir_ret = chdir(dir);
-	}
-		dir = mydata->argv[1];
-		while (dir && *dir && *dir == ' ')
-		{
-			dir++;
-		}
-		chdir_ret = chdir(dir);
-
-	if (chdir_ret == -1)
-	{
-		print_error(mydata, "can't cd to ");
-		_eputs(dir);
-		_eputchar('\n');
-	}
-	else
-	{
-		_setenv(mydata, "OLDPWD", _getenv(mydata, "PWD="));
-		_setenv(mydata, "PWD", getcwd(buffer, 1024));
-	}
-
-	return (0);
-}
-
-
-/**
- * _help - changes the current directory of the process
- * @mydata: Structure containing potential arguments. Used to maintain
- *          constant function prototype.
- *  Return: Always 0
- */
+ * _help - Prints help information about available shell commands
+ * @mydata: Structure containing potential arguments
+ * Return: Always 0
+ *
+ **/
 int _help(data_t *mydata)
 {
 	char **arg_array = mydata->argv;
@@ -112,7 +43,7 @@ int _help(data_t *mydata)
 	while (arg_array[i] != NULL)
 	{
 		if (0)
-			_puts(arg_array[i]); /* temp att_unused workaround */
+			_puts(arg_array[i]);
 		i++;
 	}
 
@@ -138,3 +69,4 @@ int bfree(void **ptr)
 	}
 	return (freed);
 }
+

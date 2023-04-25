@@ -148,7 +148,6 @@ int _alias(data_t *mydata)
 		}
 		return (0);
 	}
-
 	i = 1;
 	while (mydata->argv[i])
 	{
@@ -174,6 +173,5 @@ int _alias(data_t *mydata)
 		}
 		i++;
 	}
-
 	return (0);
 }

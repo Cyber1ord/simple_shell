@@ -56,7 +56,7 @@ int _atoi(char *s)
 	int i, sign = 1, flag = 0, output = 0;
 	unsigned int result = 0;
 
-		for (i = 0; s[i] != '\0'; i++)
+	for (i = 0; s[i] != '\0'; i++)
 	{
 		if (s[i] == '-')
 			sign *= -1;
@@ -70,7 +70,7 @@ int _atoi(char *s)
 			break;
 	}
 
-		if (sign == -1)
+	if (sign == -1)
 		output = -result;
 	else
 		output = result;

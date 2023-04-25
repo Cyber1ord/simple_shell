@@ -71,8 +71,7 @@ int print_d(int input, int fd)
 		_abs_ = input;
 	current = _abs_;
 	i = 1000000000;
-	do
-	{
+	do {
 		if (_abs_ / i)
 		{
 			__putchar('0' + current / i);

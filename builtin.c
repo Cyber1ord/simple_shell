@@ -35,75 +35,75 @@ int _rexit(data_t *mydata)
  */
 int _cd(data_t *mydata)
 {
-    char *s, *dir, buffer[1024];
-    int chdir_ret;
+	char *s, *dir, buffer[1024];
+	int chdir_ret;
 
-    s = getcwd(buffer, 1024);
-    if (!s)
-    {
-        _puts("TODO: >>getcwd failure emsg here<<\n");
-    }
+	s = getcwd(buffer, 1024);
+	if (!s)
+	{
+		_puts("TODO: >>getcwd failure emsg here<<\n");
+	}
 
-    if (!mydata->argv[1])
-    {
-        dir = _getenv(mydata, "HOME=");
-        if (!dir)
-        {
-            dir = _getenv(mydata, "PWD=");
-        }
+	if (!mydata->argv[1])
+	{
+		dir = _getenv(mydata, "HOME=");
+		if (!dir)
+		{
+			dir = _getenv(mydata, "PWD=");
+		}
 
-        while (dir && *dir && *dir == ' ')
-        {
-            dir++;
-        }
+		while (dir && *dir && *dir == ' ')
+		{
+			dir++;
+		}
 
-        chdir_ret = chdir(dir);
-    }
-    else if (_strcmp(mydata->argv[1], "-") == 0)
-    {
-        dir = _getenv(mydata, "OLDPWD=");
-        if (!dir)
-        {
-            _puts(s);
-            _putchar('\n');
-            return (1);
-        }
+		chdir_ret = chdir(dir);
+	}
+	else if (_strcmp(mydata->argv[1], "-") == 0)
+	{
+		dir = _getenv(mydata, "OLDPWD=");
+		if (!dir)
+		{
+			_puts(s);
+			_putchar('\n');
+			return (1);
+		}
 
-        while (dir && *dir && *dir == ' ')
-        {
-            dir++;
-        }
+		while (dir && *dir && *dir == ' ')
+		{
+			dir++;
+		}
 
-        _puts(dir);
-        _putchar('\n');
+		_puts(dir);
+		_putchar('\n');
 
-        chdir_ret = chdir(dir);
-    }
-    else
-    {
-        dir = mydata->argv[1];
+		chdir_ret = chdir(dir);
+	}
+	else
+	{
+		dir = mydata->argv[1];
 
-        while (dir && *dir && *dir == ' ')
-        {
-            dir++;
-        }
+		while (dir && *dir && *dir == ' ')
+		{
+			dir++;
+		}
 
-        chdir_ret = chdir(dir);
-    }
+		chdir_ret = chdir(dir);
+	}
 
-    if (chdir_ret == -1)
-    {
-        print_error(mydata, "can't cd to ");
-        _eputs(dir);
-        _eputchar('\n');
-    }
-    else
-    {
-        _setenv(mydata, "OLDPWD", _getenv(mydata, "PWD="));
-        _setenv(mydata, "PWD", getcwd(buffer, 1024));
-    }
+	if (chdir_ret == -1)
+	{
+		print_error(mydata, "can't cd to ");
+		_eputs(dir);
+		_eputchar('\n');
+	}
+	else
+	{
+		_setenv(mydata, "OLDPWD", _getenv(mydata, "PWD="));
+		_setenv(mydata, "PWD", getcwd(buffer, 1024));
+	}
 
-    return (0);
+	return (0);
 }
 
 
@@ -119,14 +119,14 @@ int _help(data_t *mydata)
 	int i = 0;
 
 	_puts("help call works. Function not yet implemented \n");
-	
+
 	while (arg_array[i] != NULL)
 	{
 		if (0)
 			_puts(arg_array[i]); /* temp att_unused workaround */
 		i++;
 	}
-	
+
 	return (0);
 }
 
@@ -139,16 +139,14 @@ int _help(data_t *mydata)
  */
 int bfree(void **ptr)
 {
-    int freed = 0;
+	int freed = 0;
 
-    while (ptr && *ptr)
-    {
-        free(*ptr);
-        *ptr = NULL;
-        freed = 1;
-    }
+	while (ptr && *ptr)
+	{
+		free(*ptr);
+		*ptr = NULL;
+		freed = 1;
+	}
 
-    return (freed);
+	return (freed);
 }
-
-

@@ -34,7 +34,7 @@ int unset_alias(data_t *mydata, char *str)
 	c = *p;
 	*p = '\0';
 	ret = delete_node_at_index(&(mydata->alias),
-		get_node_index(mydata->alias, node_starts_with(mydata->alias, str, -1)));
+			get_node_index(mydata->alias, node_starts_with(mydata->alias, str, -1)));
 	*p = c;
 	return (ret);
 }
@@ -53,14 +53,17 @@ int set_alias(data_t *mydata, char *str)
 	int ret;
 	char *alias;
 
-	while (*p != '\0' && *p != '=') {
+	while (*p != '\0' && *p != '=')
+	{
 		p++;
 	}
-	if (*p == '\0') {
-		return 1;
+	if (*p == '\0')
+	{
+		return (1);
 	}
-	if (*++p == '\0') {
-		return unset_alias(mydata, str);
+	if (*++p == '\0')
+	{
+		return (unset_alias(mydata, str));
 	}
 
 	alias = malloc(strlen(str) + 1);
@@ -71,11 +74,12 @@ int set_alias(data_t *mydata, char *str)
 	index = get_node_index(mydata->alias, node_starts_with(mydata->alias, alias, -1));
 	delete_node_at_index(&(mydata->alias), index);
 
-	while (*p != '\0') {
+	while (*p != '\0')
+	{
 		p++;
 	}
 	*p = '\0';
-		
+
 	ret = add_node_end(&(mydata->alias), str, 0) == NULL;
 	*p = '=';
 
@@ -130,47 +134,46 @@ int print_alias(list_t *node)
  */
 int _alias(data_t *mydata)
 {
-    int i = 0;
-    char *p = NULL;
-    list_t *node = NULL;
+	int i = 0;
+	char *p = NULL;
+	list_t *node = NULL;
 
-    if (mydata->argc == 1)
-    {
-        node = mydata->alias;
-        while (node)
-        {
-            print_alias(node);
-            node = node->next;
-        }
-        return (0);
-    }
+	if (mydata->argc == 1)
+	{
+		node = mydata->alias;
+		while (node)
+		{
+			print_alias(node);
+			node = node->next;
+		}
+		return (0);
+	}
 
-    i = 1;
-    while (mydata->argv[i])
-    {
-        p = _strchr(mydata->argv[i], '=');
-        if (p)
-        {
-            set_alias(mydata, mydata->argv[i]);
-        }
-        else
-        {
-            node = node_starts_with(mydata->alias, mydata->argv[i], '=');
-            if (node)
-            {
-                print_alias(node);
-            }
-            else
-            {
-                print_error(mydata, "alias: ");
-                _eputs(mydata->argv[i]);
-                _eputs(": not found\n");
-                return (1);
-            }
-        }
-        i++;
-    }
+	i = 1;
+	while (mydata->argv[i])
+	{
+		p = _strchr(mydata->argv[i], '=');
+		if (p)
+		{
+			set_alias(mydata, mydata->argv[i]);
+		}
+		else
+		{
+			node = node_starts_with(mydata->alias, mydata->argv[i], '=');
+			if (node)
+			{
+				print_alias(node);
+			}
+			else
+			{
+				print_error(mydata, "alias: ");
+				_eputs(mydata->argv[i]);
+				_eputs(": not found\n");
+				return (1);
+			}
+		}
+		i++;
+	}
 
-    return (0);
+	return (0);
 }
-

@@ -54,26 +54,27 @@ void free_data(data_t *mydata, int all)
 	ffree(mydata->argv);
 	mydata->argv = NULL;
 	mydata->path = NULL;
-	switch (all) {
-	case 1:
-		if (!mydata->cmd_buf)
-			free(mydata->arg);
-		if (mydata->env)
-			free_list(&(mydata->env));
-		if (mydata->history)
-			free_list(&(mydata->history));
-		if (mydata->alias)
-			free_list(&(mydata->alias));
-		ffree(mydata->environ);
+	switch (all)
+	{
+		case 1:
+			if (!mydata->cmd_buf)
+				free(mydata->arg);
+			if (mydata->env)
+				free_list(&(mydata->env));
+			if (mydata->history)
+				free_list(&(mydata->history));
+			if (mydata->alias)
+				free_list(&(mydata->alias));
+			ffree(mydata->environ);
 			mydata->environ = NULL;
-		bfree((void **)mydata->cmd_buf);
-		if (mydata->readfd > 2)
-			close(mydata->readfd);
-		_putchar(BUF_FLUSH);
-		break;
-	default:
-		break;
-}
+			bfree((void **)mydata->cmd_buf);
+			if (mydata->readfd > 2)
+				close(mydata->readfd);
+			_putchar(BUF_FLUSH);
+			break;
+		default:
+			break;
+	}
 
 }
 
@@ -111,35 +112,34 @@ char *find_path(data_t *mydata, char *pathstr, char *cmd)
 	char *path;
 
 	if (!pathstr)
-    return (NULL);
+		return (NULL);
 
-if ((_strlen(cmd) > 2) && starts_with(cmd, "./"))
-{
-    if (is_cmd(mydata, cmd))
-        return (cmd);
-}
+	if ((_strlen(cmd) > 2) && starts_with(cmd, "./"))
+	{
+		if (is_cmd(mydata, cmd))
+			return (cmd);
+	}
 
-do
-{
-    if (!pathstr[i] || pathstr[i] == ':')
-    {
-        path = dup_chars(pathstr, curr_pos, i);
-        if (!*path)
-            _strcat(path, cmd);
-        else
-        {
-            _strcat(path, "/");
-            _strcat(path, cmd);
-        }
-        if (is_cmd(mydata, path))
-            return (path);
-        if (!pathstr[i])
-            break;
-        curr_pos = i;
-    }
-    i++;
-} while (1);
+	do {
+		if (!pathstr[i] || pathstr[i] == ':')
+		{
+			path = dup_chars(pathstr, curr_pos, i);
+			if (!*path)
+				_strcat(path, cmd);
+			else
+			{
+				_strcat(path, "/");
+				_strcat(path, cmd);
+			}
+			if (is_cmd(mydata, path))
+				return (path);
+			if (!pathstr[i])
+				break;
+			curr_pos = i;
+		}
+		i++;
+	} while (1);
 
-return (NULL);
+	return (NULL);
 
 }

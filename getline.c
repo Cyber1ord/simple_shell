@@ -126,41 +126,41 @@ int _getline(data_t *mydata, char **ptr, size_t *length)
 	char *p = NULL, *new_p = NULL, *c;
 
 	p = *ptr;
-if (p && length)
-	s = *length;
-if (i == len)
-	i = len = 0;
+	if (p && length)
+		s = *length;
+	if (i == len)
+		i = len = 0;
 
-r = read_buf(mydata, buf, &len);
-if (r == -1 || (r == 0 && len == 0))
-	return (-1);
-
-c = _strchr(buf + i, '\n');
-k = c ? 1 + (unsigned int)(c - buf) : len;
-new_p = _realloc(p, s, s ? s + k : k + 1);
-switch (new_p == NULL)
-{
-	case 1:
-		if (p != NULL)
-			free(p);
+	r = read_buf(mydata, buf, &len);
+	if (r == -1 || (r == 0 && len == 0))
 		return (-1);
-	default:
-		break;
-}
 
-if (s)
-	_strncat(new_p, buf + i, k - i);
-else
-	_strncpy(new_p, buf + i, k - i + 1);
+	c = _strchr(buf + i, '\n');
+	k = c ? 1 + (unsigned int)(c - buf) : len;
+	new_p = _realloc(p, s, s ? s + k : k + 1);
+	switch (new_p == NULL)
+	{
+		case 1:
+			if (p != NULL)
+				free(p);
+			return (-1);
+		default:
+			break;
+	}
 
-s += k - i;
-i = k;
-p = new_p;
+	if (s)
+		_strncat(new_p, buf + i, k - i);
+	else
+		_strncpy(new_p, buf + i, k - i + 1);
 
-if (length)
-	*length = s;
-*ptr = p;
-return (s);
+	s += k - i;
+	i = k;
+	p = new_p;
+
+	if (length)
+		*length = s;
+	*ptr = p;
+	return (s);
 
 }
 

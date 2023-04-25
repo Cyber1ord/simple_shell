@@ -35,7 +35,8 @@ int _unsetenv(data_t *mydata, char *var)
 
 	do {
 		p = starts_with(node->str, var);
-		if (p && *p == '=') {
+		if (p && *p == '=')
+		{
 			mydata->env_changed = delete_node_at_index(&(mydata->env), i);
 			i = 0;
 			node = mydata->env;
@@ -75,8 +76,7 @@ int _setenv(data_t *mydata, char *var, char *value)
 	_strcat(buf, value);
 	node = mydata->env;
 
-	do
-	{
+	do {
 		p = starts_with(node->str, var);
 		if (p && *p == '=')
 		{
@@ -116,4 +116,3 @@ int is_cmd(data_t *mydata, char *path)
 	}
 	return (0);
 }
-

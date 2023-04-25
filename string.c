@@ -23,7 +23,8 @@ int _strlen(char *s)
  * @s1: the first strang
  * @s2: the second strang
  *
- * Return: negative if s1 < s2, positive if s1 > s2, zero if s1 == s2
+ * Return: negative if s1 < s2,
+ * positive if s1 > s2, zero if s1 == s2
  */
 int _strcmp(char *s1, char *s2)
 {
@@ -85,8 +86,8 @@ char *_strchr(char *s, char c)
 	do {
 		if (*s == c)
 			return (s);
-	} while (*s++ != '\0');
-
+	}
+	while (*s++ != '\0');
 
 	return (NULL);
 }

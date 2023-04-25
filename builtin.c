@@ -43,7 +43,6 @@ int _cd(data_t *mydata)
 	{
 		_puts("TODO: >>getcwd failure emsg here<<\n");
 	}
-
 	if (!mydata->argv[1])
 	{
 		dir = _getenv(mydata, "HOME=");
@@ -68,28 +67,18 @@ int _cd(data_t *mydata)
 			_putchar('\n');
 			return (1);
 		}
-
-		while (dir && *dir && *dir == ' ')
-		{
+		while (dir && *dir && (*dir == ' '))
 			dir++;
-		}
-
 		_puts(dir);
 		_putchar('\n');
-
 		chdir_ret = chdir(dir);
 	}
-	else
-	{
 		dir = mydata->argv[1];
-
 		while (dir && *dir && *dir == ' ')
 		{
 			dir++;
 		}
-
 		chdir_ret = chdir(dir);
-	}
 
 	if (chdir_ret == -1)
 	{
@@ -147,6 +136,5 @@ int bfree(void **ptr)
 		*ptr = NULL;
 		freed = 1;
 	}
-
 	return (freed);
 }

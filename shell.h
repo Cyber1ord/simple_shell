@@ -148,7 +148,7 @@ void remove_comments(char *);
 char *_strncpy(char *, char *, int);
 char *_strncat(char *, char *, int);
 char *_strchr(char *, char);
-
+int cd_next(data_t *mydata);
 char *_getenv(data_t *, const char *);
 int _menv(data_t *);
 int _msetenv(data_t *);

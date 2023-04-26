@@ -1,16 +1,32 @@
 #include "shell.h"
 
 /**
- * _history - displays the history list, one command by line, preceded
- *              with line numbers, starting at 0.
- * @mydata: Structure containing potential arguments. Used to maintain
- *        constant function prototype.
- *  Return: Always 0
+ * replace_alias - replaces an aliases in the tokenized string
+ * @mydata: the parameter struct
+ *
+ * Return: 1 if replaced, 0 otherwise
  */
-int _history(data_t *mydata)
+int replace_alias(data_t *mydata)
 {
-	print_list(mydata->history);
-	return (0);
+	int i;
+	list_t *node;
+	char *p;
+
+	for (i = 0; i < 10; i++)
+	{
+		node = node_starts_with(mydata->alias, mydata->argv[0], '=');
+		if (!node)
+			return (0);
+		free(mydata->argv[0]);
+		p = _strchr(node->str, '=');
+		if (!p)
+			return (0);
+		p = _strdup(p + 1);
+		if (!p)
+			return (0);
+		mydata->argv[0] = p;
+	}
+	return (1);
 }
 
 /**
@@ -70,7 +86,6 @@ int set_alias(data_t *mydata, char *str)
 	strcpy(alias, str);
 	alias[p - str - 1] = '\0';
 
-
 	index = get_node_index(mydata->alias, node_starts_with(mydata->alias, alias, -1));
 	delete_node_at_index(&(mydata->alias), index);
 
@@ -92,12 +107,6 @@ int set_alias(data_t *mydata, char *str)
  * @node: the alias node
  *
  * Return: Always 0 on success, 1 on error
- */
-/**
- * print_alias - Prints the name and value of an alias.
- * @node: A pointer to the node containing the alias.
- *
- * Return: 0 on success, or 1 if node is NULL.
  */
 int print_alias(list_t *node)
 {

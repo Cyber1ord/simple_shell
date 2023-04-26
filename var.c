@@ -70,32 +70,16 @@ void check_chain(data_t *mydata, char *buf, size_t *p, size_t i, size_t len)
 }
 
 /**
- * replace_alias - replaces an aliases in the tokenized string
- * @mydata: the parameter struct
- *
- * Return: 1 if replaced, 0 otherwise
+ * _history - displays the history list, one command by line, preceded
+ *              with line numbers, starting at 0.
+ * @mydata: Structure containing potential arguments. Used to maintain
+ *        constant function prototype.
+ *  Return: Always 0
  */
-int replace_alias(data_t *mydata)
+int _history(data_t *mydata)
 {
-	int i;
-	list_t *node;
-	char *p;
-
-	for (i = 0; i < 10; i++)
-	{
-		node = node_starts_with(mydata->alias, mydata->argv[0], '=');
-		if (!node)
-			return (0);
-		free(mydata->argv[0]);
-		p = _strchr(node->str, '=');
-		if (!p)
-			return (0);
-		p = _strdup(p + 1);
-		if (!p)
-			return (0);
-		mydata->argv[0] = p;
-	}
-	return (1);
+	print_list(mydata->history);
+	return (0);
 }
 
 /**

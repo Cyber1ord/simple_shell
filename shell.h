@@ -159,7 +159,7 @@ int populate_env_list(data_t *);
 char **get_environ(data_t *);
 int _unsetenv(data_t *, char *);
 int _setenv(data_t *, char *, char *);
-
+int change_directory(data_t *mydata, char *dir);
 ssize_t get_input(data_t *);
 int _getline(data_t *, char **, size_t *);
 void sigintHandler(int);

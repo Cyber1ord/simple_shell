@@ -10,7 +10,7 @@ int _rexit(data_t *mydata)
 	char *endptr;
 	int exitcode;
 
-	if (!mydata || !mydata->argv[1])
+	if (!mydata->argv[1])
 	{
 		mydata->err_num = -1;
 		return (-2);
@@ -25,7 +25,9 @@ int _rexit(data_t *mydata)
 		return (1);
 	}
 	mydata->err_num = exitcode;
-	return (-2);
+	mydata->status = (exitcode % 256);
+	return (0);
+
 }
 
 

@@ -86,7 +86,8 @@ int set_alias(data_t *mydata, char *str)
 	strcpy(alias, str);
 	alias[p - str - 1] = '\0';
 
-	index = get_node_index(mydata->alias, node_starts_with(mydata->alias, alias, -1));
+	index = get_node_index(mydata->alias,
+			node_starts_with(mydata->alias, alias, -1));
 	delete_node_at_index(&(mydata->alias), index);
 
 	while (*p != '\0')

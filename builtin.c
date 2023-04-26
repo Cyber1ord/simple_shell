@@ -7,25 +7,27 @@
  */
 int _rexit(data_t *mydata)
 {
-	int exitcheck;
+	char *endptr;
+	int exitcode;
 
-	if (mydata->argv[1])
+	if (!mydata || !mydata->argv[1])
 	{
-		exitcheck = _erratoi(mydata->argv[1]);
-		if (exitcheck == -1)
-		{
-			mydata->status = 2;
-			print_error(mydata, "Invalid number: ");
-			_eputs(mydata->argv[1]);
-			_eputchar('\n');
-			return (1);
-		}
-		mydata->err_num = _erratoi(mydata->argv[1]);
+		mydata->err_num = -1;
 		return (-2);
 	}
-	mydata->err_num = -1;
+	exitcode = strtol(mydata->argv[1], &endptr, 10);
+	if (*endptr != '\0')
+	{
+		mydata->status = 2;
+		print_error(mydata, "Invalid number: ");
+		_eputs(mydata->argv[1]);
+		_eputchar('\n');
+		return (1);
+	}
+	mydata->err_num = exitcode;
 	return (-2);
 }
+
 
 /**
  * _help - Prints help information about available shell commands
@@ -69,4 +71,3 @@ int bfree(void **ptr)
 	}
 	return (freed);
 }
-

@@ -154,7 +154,7 @@ int _menv(data_t *);
 int _msetenv(data_t *);
 int _munsetenv(data_t *);
 int populate_env_list(data_t *);
-
+long int _strtol(const char *str, char **endptr, int base);
 
 char **get_environ(data_t *);
 int _unsetenv(data_t *, char *);

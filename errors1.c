@@ -12,7 +12,7 @@ int _erratoi(char *s)
 	unsigned long int result = 0;
 
 	if (*s == '+')
-		s++;  /* TODO: why does this make main return 255? */
+		s++;
 	for (i = 0;  s[i] != '\0'; i++)
 	{
 		if (s[i] >= '0' && s[i] <= '9')
@@ -43,7 +43,7 @@ void print_error(data_t *mydata, char *estr)
 	_eputs(": ");
 	_eputs(mydata->argv[0]);
 	_eputs(": ");
-	_puts(estr);
+	_eputs(estr);
 }
 
 /**
@@ -60,7 +60,7 @@ int print_d(int input, int fd)
 	unsigned int _abs_, current;
 
 	if (fd == STDERR_FILENO)
-		__putchar = _putchar;
+		__putchar = _eputchar;
 	if (input < 0)
 	{
 		_abs_ = -input;
@@ -71,7 +71,8 @@ int print_d(int input, int fd)
 		_abs_ = input;
 	current = _abs_;
 	i = 1000000000;
-	do {
+	while (i > 1)
+	{
 		if (_abs_ / i)
 		{
 			__putchar('0' + current / i);
@@ -79,7 +80,7 @@ int print_d(int input, int fd)
 		}
 		current %= i;
 		i /= 10;
-	} while (i > 1);
+	}
 	__putchar('0' + current);
 	count++;
 
@@ -88,7 +89,7 @@ int print_d(int input, int fd)
 
 
 /**
- * convert_number - converter function, a clone of itoa
+ * convert_number - a clone of itoa
  * @num: number
  * @base: base
  * @flags: argument flags

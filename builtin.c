@@ -7,33 +7,25 @@
  */
 int _rexit(data_t *mydata)
 {
-	char *endptr;
 	int exitcode;
 
-	if (!mydata || !mydata->argv[1])
+	if (mydata->argv[1]) /* If there is an exit argument*/
 	{
-		mydata->err_num = -1;
+		exitcode = _erratoi(mydata->argv[1]);
+		if (exitcode == -1)
+		{
+			mydata->status = 2;
+			print_error(mydata, "Illegal number: ");
+			_eputs(mydata->argv[1]);
+			_eputchar('\n');
+			return (1);
+		}
+		mydata->err_num = _erratoi(mydata->argv[1]);
 		return (-2);
 	}
-
-	exitcode = strtol(mydata->argv[1], &endptr, 10);
-
-	if ((exitcode == 0 && *endptr != '\0') || exitcode < 0)
-	{
-		mydata->status = 2;
-
-		if (exitcode < 0)
-			print_error(mydata, "Illegal number: ");
-		else
-			print_error(mydata, "Illegal number: ");
-
-		_eputs(mydata->argv[1]);
-		_eputchar('\n');
-		return (1);
-	}
-
-	mydata->err_num = exitcode;
+	mydata->err_num = -1;
 	return (-2);
+
 }
 
 

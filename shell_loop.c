@@ -17,7 +17,7 @@ int hsh(data_t *mydata, char **av)
 		clear_data(mydata);
 		if (interactive(mydata))
 			_puts("CyberShell$ ");
-		_putchar(BUF_FLUSH);
+		_eputchar(BUF_FLUSH);
 		r = get_input(mydata);
 		if (r != -1)
 		{

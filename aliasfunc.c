@@ -42,13 +42,11 @@ int unset_alias(data_t *mydata, char *str)
 	char c;
 	int ret;
 
-	p = str;
-	while (*p && *p != '=')
-		p++;
-	if (*p == '\0')
+	p = _strchr(str, '=');
+	if (!p)
 		return (1);
 	c = *p;
-	*p = '\0';
+	*p = 0;
 	ret = delete_node_at_index(&(mydata->alias),
 			get_node_index(mydata->alias, node_starts_with(mydata->alias, str, -1)));
 	*p = c;
@@ -65,39 +63,15 @@ int unset_alias(data_t *mydata, char *str)
 int set_alias(data_t *mydata, char *str)
 {
 	char *p = str;
-	int index;
 	int ret;
-	char *alias;
 
-	while (*p != '\0' && *p != '=')
-	{
-		p++;
-	}
-	if (*p == '\0')
-	{
+	p = _strchr(str, '=');
+	if (!p)
 		return (1);
-	}
-	if (*++p == '\0')
-	{
+	if (!*++p)
 		return (unset_alias(mydata, str));
-	}
-
-	alias = malloc(strlen(str) + 1);
-	strcpy(alias, str);
-	alias[p - str - 1] = '\0';
-
-	index = get_node_index(mydata->alias,
-			node_starts_with(mydata->alias, alias, -1));
-	delete_node_at_index(&(mydata->alias), index);
-
-	while (*p != '\0')
-	{
-		p++;
-	}
-	*p = '\0';
-
+	unset_alias(mydata, str);
 	ret = add_node_end(&(mydata->alias), str, 0) == NULL;
-	*p = '=';
 
 	return (ret);
 }
@@ -111,7 +85,7 @@ int set_alias(data_t *mydata, char *str)
  */
 int print_alias(list_t *node)
 {
-	char *p, *a;
+	char *p = NULL, *a = NULL;
 
 	if (!node)
 		return (1);
@@ -120,17 +94,12 @@ int print_alias(list_t *node)
 	a = node->str;
 
 	/* Print the name part of the alias */
-	while (a <= p)
-		_putchar(*a++);
-
+	for (a = node->str; a <= p; a++)
+		_putchar(*a);
 	_putchar('\'');
-
 	/* Print the value part of the alias */
-	while (*p)
-		_putchar(*p++);
-
-	_putchar('\'');
-	_putchar('\n');
+	_puts(p + 1);
+	_puts("'\n");
 
 	return (0);
 }
@@ -168,18 +137,8 @@ int _alias(data_t *mydata)
 		}
 		else
 		{
-			node = node_starts_with(mydata->alias, mydata->argv[i], '=');
-			if (node)
-			{
-				print_alias(node);
-			}
-			else
-			{
-				print_error(mydata, "alias: ");
-				_eputs(mydata->argv[i]);
-				_eputs(": not found\n");
-				return (1);
-			}
+			print_alias(node_starts_with(mydata->alias,
+			mydata->argv[i], '='));
 		}
 		i++;
 	}

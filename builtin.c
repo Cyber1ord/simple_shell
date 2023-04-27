@@ -18,14 +18,14 @@ int _rexit(data_t *mydata)
 
 	exitcode = strtol(mydata->argv[1], &endptr, 10);
 
-	if (exitcode < 0 || *endptr != '\0')
+	if ((exitcode == 0 && *endptr != '\0') || exitcode < 0)
 	{
 		mydata->status = 2;
 
 		if (exitcode < 0)
 			print_error(mydata, "Illegal number: ");
 		else
-			print_error(mydata, "Invalid number: ");
+			print_error(mydata, "Illegal number: ");
 
 		_eputs(mydata->argv[1]);
 		_eputchar('\n');
@@ -35,6 +35,7 @@ int _rexit(data_t *mydata)
 	mydata->err_num = exitcode;
 	return (-2);
 }
+
 
 
 
